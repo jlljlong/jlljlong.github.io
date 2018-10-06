@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=6.4.2">
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="以下均在用户目录$HOME下, 安装路径为$HOME/Software/  Preparing:12$ make dir /$HOME/bin$ export PATH=$HOME/BIN:$PATH #或修改 $HOME/.bashrc Installing Boost (version 1.55.0 )  忽略此步骤12345Download from http://www.boost.or">
+<meta name="keywords" content="Cufflinks,TopHat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cufflinks Pipeline搭建">
+<meta property="og:url" content="http://yoursite.com/2016/04/29/cufflinks-install/index.html">
+<meta property="og:site_name" content="Lorne&#39;s blog">
+<meta property="og:description" content="以下均在用户目录$HOME下, 安装路径为$HOME/Software/  Preparing:12$ make dir /$HOME/bin$ export PATH=$HOME/BIN:$PATH #或修改 $HOME/.bashrc Installing Boost (version 1.55.0 )  忽略此步骤12345Download from http://www.boost.or">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2016-04-29T08:37:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cufflinks Pipeline搭建">
+<meta name="twitter:description" content="以下均在用户目录$HOME下, 安装路径为$HOME/Software/  Preparing:12$ make dir /$HOME/bin$ export PATH=$HOME/BIN:$PATH #或修改 $HOME/.bashrc Installing Boost (version 1.55.0 )  忽略此步骤12345Download from http://www.boost.or">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/04/29/cufflinks-install/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Cufflinks Pipeline搭建 | Lorne's blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lorne's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">记录学习和生活的点滴，学习进入新模式。</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/04/29/cufflinks-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Han Xiaolong">
+      <meta itemprop="description" content="Sweet are the uses of adversity.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lorne's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Cufflinks Pipeline搭建
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-04-29 16:23:04 / 修改时间：16:37:20" itemprop="dateCreated datePublished" datetime="2016-04-29T16:23:04+08:00">2016-04-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Bioinformatics/" itemprop="url" rel="index"><span itemprop="name">Bioinformatics</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>以下均在用户目录$HOME下, 安装路径为$HOME/Software/</p>
+</blockquote>
+<h3 id="Preparing"><a href="#Preparing" class="headerlink" title="Preparing:"></a>Preparing:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ make dir /$HOME/bin</span><br><span class="line">$ export PATH=$HOME/BIN:$PATH #或修改 $HOME/.bashrc</span><br></pre></td></tr></table></figure>
+<h3 id="Installing-Boost-version-1-55-0-忽略此步骤"><a href="#Installing-Boost-version-1-55-0-忽略此步骤" class="headerlink" title="Installing Boost (version 1.55.0 )  忽略此步骤"></a>Installing Boost (version 1.55.0 )  忽略此步骤</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Download from http://www.boost.org/users/download/</span><br><span class="line">$ tar -zxvf  boost_1_55_0.tar.gz</span><br><span class="line">$ cd boost_1_55_0/</span><br><span class="line">$ ./bootstrap.sh  </span><br><span class="line">#Boost 需要 bjam编译，但是无需下载安装 bjam，运行此程序，自动产生bjam</span><br></pre></td></tr></table></figure>
+<h3 id="Installing-TopHat-version-2-0-11-Linux-x86-64-binary"><a href="#Installing-TopHat-version-2-0-11-Linux-x86-64-binary" class="headerlink" title="Installing TopHat (version 2.0.11 Linux x86_64 binary):"></a>Installing TopHat (version 2.0.11 Linux x86_64 binary):</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://tophat.cbcb.umd.edu/downloads/tophat-2.0.11.Linux_x86_64.tar.gz</span><br><span class="line">$ tar -zxvf tophat-2.0.11.Linux_x86_64.tar.gz</span><br><span class="line">$ cd ~/bin</span><br><span class="line">$ ln -s ~/Software/tophat-2.0.11.Linux_x86_64/tophat2</span><br></pre></td></tr></table></figure>
+<h3 id="Installing-Samtools-version-0-1-19"><a href="#Installing-Samtools-version-0-1-19" class="headerlink" title="Installing Samtools ( version 0.1.19)"></a>Installing Samtools ( version 0.1.19)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git://github.com/samtools/samtools.git</span><br><span class="line">$ tar -jxvf samtools-0.1.19.tar.bz2</span><br><span class="line">$ cd samtools-0.1.19</span><br><span class="line">$ make #rpm -aq|grep &quot;zlib&quot; 查询  If you have zlib &gt;= 1.2.2.1, you can compile razip with `make razip&apos;</span><br><span class="line">$ cp samtools   bcftools/bcftools     $HOME/bin   #and copy  other executables/scripts in `misc&apos;</span><br></pre></td></tr></table></figure>
+<h3 id="Installing-Bowetie-version-0-12-10"><a href="#Installing-Bowetie-version-0-12-10" class="headerlink" title="Installing Bowetie (version 0.12.10)"></a>Installing Bowetie (version 0.12.10)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git://github.com/BenLangmead/bowtie.git</span><br><span class="line">$ unzip   bowtie-master</span><br><span class="line">$ cd  bowtie-master</span><br><span class="line">$ make</span><br><span class="line">$ cp bowtie bowtie-build bowtie-inspect  $HOME/bin/</span><br><span class="line">#alternative Bowtie2:</span><br><span class="line">    download from software store - unzip - copy all executable file to $HOME/bin</span><br></pre></td></tr></table></figure>
+<h3 id="Installing-cufflinks-version-2-2-1-官网下载"><a href="#Installing-cufflinks-version-2-2-1-官网下载" class="headerlink" title="Installing cufflinks (version 2.2.1)官网下载"></a>Installing cufflinks (version 2.2.1)官网下载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf cufflinks-2.2.1.Linux_x86_64.tar.gz</span><br><span class="line">$ cd cufflinks-2.2.1.Linux_x86_64</span><br><span class="line">$ copy 所有可执行文件到   $HOME/bin</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Cufflinks/" rel="tag"># Cufflinks</a>
+          
+            <a href="/tags/TopHat/" rel="tag"># TopHat</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/29/python-easyinstall-install/" rel="next" title="Python easy_install">
+                <i class="fa fa-chevron-left"></i> Python easy_install
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/16/R-heatmap/" rel="prev" title="R_heatmap">
+                R_heatmap <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Han Xiaolong" />
+            
+              <p class="site-author-name" itemprop="name">Han Xiaolong</p>
+              <p class="site-description motion-element" itemprop="description">Sweet are the uses of adversity.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/jlljlong" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/yourname" target="_blank" title="Twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:hanxl0603@hotmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://plus.google.com/yourname" target="_blank" title="Google"><i class="fa fa-fw fa-google"></i>Google</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Preparing"><span class="nav-number">1.</span> <span class="nav-text">Preparing:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Installing-Boost-version-1-55-0-忽略此步骤"><span class="nav-number">2.</span> <span class="nav-text">Installing Boost (version 1.55.0 )  忽略此步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Installing-TopHat-version-2-0-11-Linux-x86-64-binary"><span class="nav-number">3.</span> <span class="nav-text">Installing TopHat (version 2.0.11 Linux x86_64 binary):</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Installing-Samtools-version-0-1-19"><span class="nav-number">4.</span> <span class="nav-text">Installing Samtools ( version 0.1.19)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Installing-Bowetie-version-0-12-10"><span class="nav-number">5.</span> <span class="nav-text">Installing Bowetie (version 0.12.10)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Installing-cufflinks-version-2-2-1-官网下载"><span class="nav-number">6.</span> <span class="nav-text">Installing cufflinks (version 2.2.1)官网下载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Han Xiaolong</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
